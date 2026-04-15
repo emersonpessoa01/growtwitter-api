@@ -1,0 +1,29 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+package-lock.json
+
+# TypeScript
+*.tsbuildinfo
+dist/
+
+# Optional REPL history
+.node_repl_history
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
