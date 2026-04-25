@@ -15,7 +15,13 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(express.json());
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        origin: "*",
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+      }),
+    );
   }
 
   private initializeControllers(routers: express.Router[]) {
