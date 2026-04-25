@@ -8,7 +8,7 @@ import {
   UsersRoutes,
 } from "./routes";
 
-const app = new App(
+const serverInstance = new App(
   [
     AuthRoutes.bind(),
     UsersRoutes.bind(),
@@ -19,4 +19,8 @@ const app = new App(
   envs.PORT,
 );
 
-app.listen();
+if (!process.env.VERCEL) {
+  serverInstance.listen();
+}
+
+export default serverInstance.app;
