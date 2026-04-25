@@ -1,10 +1,10 @@
+import { BcryptAdapter, JWTAdapter } from "../adapters";
+import { UserService } from "./user.service";
+import { AuthUserDto } from "../dtos";
 import { LoginDto, LoginOutputDto } from "../dtos/auth.dto";
 import { CreateUserDto } from "../dtos/user.dto";
 import { User } from "../models";
 import { HTTPError } from "../utils";
-import { UserService } from "./user.service";
-import { BcryptAdapter, JWTAdapter } from "../adapters";
-import { AuthUserDto } from "../dtos";
 
 export class AuthService {
   constructor(
@@ -53,6 +53,7 @@ export class AuthService {
       id: userJson.id,
       name: userJson.name,
       username: userJson.username,
+      imageUrl: userJson.imageUrl,
     };
     const jwt = new JWTAdapter();
     const token = jwt.generateToken(authUser);

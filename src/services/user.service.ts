@@ -66,6 +66,25 @@ export class UserService {
     return users.map((user) => this.mapToModel(user));
   }
 
+  public async update(
+    id: string,
+    data: { name?: string; imageUrl?: string },
+  ): Promise<User> {
+    const updatedUser = await prismaRepository.user.update({
+      where: { id },
+      data: {
+        name: data.name,
+        imageUrl: data.imageUrl,
+      },
+    });
+
+    if (!updatedUser) {
+      throw new HTTPError(404, "User not found");
+    }
+
+    return this.mapToModel(updatedUser);
+  }
+
   private mapToModel(entity: UserEntity): User {
     return new User(
       entity.id,

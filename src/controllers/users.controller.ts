@@ -30,7 +30,9 @@ export class UsersController {
 
   public async getById(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
+      const userId = Array.isArray(req.params.userId)
+        ? req.params.userId[0]
+        : req.params.userId;
 
       const service = new UserService(
         new TweetService(new LikeService()),
@@ -42,6 +44,31 @@ export class UsersController {
       res.status(200).json({
         success: true,
         message: "Record found successfully.",
+        data: result.toJSON(),
+      });
+    } catch (error) {
+      onError(error, res);
+    }
+  }
+
+  public async update(req: Request, res: Response) {
+    try {
+      const userId = Array.isArray(req.params.userId)
+        ? req.params.userId[0]
+        : req.params.userId;
+      const { name, imageUrl } = req.body;
+
+      // Seguindo o padrão de injeção que você usa no index e getById
+      const service = new UserService(
+        new TweetService(new LikeService()),
+        new FollowService(),
+      );
+
+      const result = await service.update(userId, { name, imageUrl });
+
+      res.status(200).json({
+        success: true,
+        message: "Record updated successfully.",
         data: result.toJSON(),
       });
     } catch (error) {

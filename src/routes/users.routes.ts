@@ -18,6 +18,13 @@ export class UsersRoutes {
       controller.getById,
     );
 
+    router.put(
+      "/users/:userId",
+      authMiddleware,
+      dataValidation([param("userId").isUUID()]),
+      controller.update, // Precisamos adicionar este método no UsersController também
+    );
+
     return router;
   }
 }
