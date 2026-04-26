@@ -232,4 +232,40 @@ export class TweetService {
       entity.updatedAt,
     );
   }
+
+  public async listAllTweets(): Promise<Tweet[]> {
+    // 1. Busca todos os tweets do tipo NORMAL no banco
+    const tweetsDB = await prismaRepository.tweet.findMany({
+      where: {
+        type: TweetType.NORMAL,
+      },
+      include: { author: true },
+      orderBy: { createdAt: "desc" },
+    });
+
+    const tweets: Tweet[] = [];
+
+    // 2. Mapeia likes, replies e autores para cada tweet encontrado
+    for (const tweet of tweetsDB) {
+      const replies = await this.listRepliesByTweetId(tweet.id);
+      const likes = await this.likeService.listLikesByTweetId(tweet.id);
+
+      const author = new User(
+        tweet.author.id,
+        tweet.author.name,
+        tweet.author.imageUrl,
+        tweet.author.username,
+        tweet.author.createdAt,
+        tweet.author.updatedAt,
+      );
+
+      const tweetModel = this.mapToModel(tweet);
+      tweetModel.withAuthor(author);
+      tweetModel.withReplies(replies);
+      tweetModel.withLikes(likes);
+      tweets.push(tweetModel);
+    }
+
+    return tweets;
+  }
 }

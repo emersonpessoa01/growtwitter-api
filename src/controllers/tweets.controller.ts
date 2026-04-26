@@ -52,7 +52,7 @@ export class TweetsController {
       const service = new TweetService(new LikeService());
 
       const result = await service.findTweet({
-        tweetId: id,
+        tweetId: id as string,
       });
 
       res.status(200).json({
@@ -75,7 +75,7 @@ export class TweetsController {
 
       const result = await service.updateTweet({
         authorId,
-        tweetId: id,
+        tweetId: id as string,
         content,
       });
 
@@ -98,7 +98,7 @@ export class TweetsController {
 
       const result = await service.deleteTweet({
         authorId,
-        tweetId: id,
+        tweetId: id as string,
       });
 
       res.status(200).json({
@@ -117,7 +117,7 @@ export class TweetsController {
 
       const service = new TweetService(new LikeService());
 
-      const result = await service.listTweetsByUserId(userId);
+      const result = await service.listTweetsByUserId(userId as string);
 
       res.status(200).json({
         success: true,
@@ -141,6 +141,22 @@ export class TweetsController {
         success: true,
         message: "Records listed successfully.",
         data: result.map((t) => t.toJSON()),
+      });
+    } catch (error) {
+      onError(error, res);
+    }
+  }
+
+  // Procure seu arquivo de controller e adicione este método
+  public async listAll(req: Request, res: Response) {
+    try {
+      const service = new TweetService(new LikeService());
+      const tweets = await service.listAllTweets();
+
+      res.status(200).json({
+        success: true,
+        message: "Todos os tweets listados com sucesso",
+        data: tweets.map((t) => t.toJSON()),
       });
     } catch (error) {
       onError(error, res);
