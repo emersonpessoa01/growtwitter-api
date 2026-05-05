@@ -41,6 +41,7 @@ export default [
           ],
           alphabetize: { order: "asc", caseInsensitive: true },
           "newlines-between": "always",
+          "no-console": "off"
         },
       ],
     },
