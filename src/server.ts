@@ -68,10 +68,16 @@ serverInstance.app.use(
   swaggerUi.setup(swaggerSpec, {
     customCssUrl:
       "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css",
-    customJs:
+    customJs: [
       "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js",
+    ],
     customSiteTitle: "Growtwitter API Docs",
-  } as any), // O 'as any' mata o erro do VS Code e deixa você seguir
+    swaggerOptions: {
+      // Força o Swagger a não tentar carregar presets locais
+      presets: ["SwaggerUIBundle.presets.apis", "SwaggerUIStandalonePreset"],
+    },
+  } as any),
 );
 
 if (!process.env.VERCEL) {
