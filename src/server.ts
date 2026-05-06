@@ -79,6 +79,23 @@ serverInstance.app.use(
     },
   } as any),
 );
+serverInstance.app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customCssUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css",
+    customJs: [
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js",
+    ],
+    customSiteTitle: "Growtwitter API Docs",
+    swaggerOptions: {
+      // Força o Swagger a não tentar carregar presets locais
+      presets: ["SwaggerUIBundle.presets.apis", "SwaggerUIStandalonePreset"],
+    },
+  } as any),
+);
 
 if (!process.env.VERCEL) {
   serverInstance.listen();
