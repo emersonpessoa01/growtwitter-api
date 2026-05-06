@@ -44,7 +44,6 @@ const swaggerOptions = {
       },
     ],
   },
-  // CORREÇÃO DOS CAMINHOS: Lê .ts em dev e .js em prod
   apis: ["./src/routes/*.ts", "./dist/routes/*.js", "./routes/*.js"],
 };
 
@@ -61,16 +60,25 @@ const serverInstance = new App(
   envs.PORT,
 );
 
-// CORREÇÃO DA TELA BRANCA: Adicionado CSS customizado para garantir o carregamento na Vercel
+// Rota para servir o JSON do spec (necessário na Vercel)
+serverInstance.app.get("/api-docs.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
 
 serverInstance.app.use(
   "/api-docs",
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, {
-    customCss: ".swagger-ui .topbar { display: none }", // Um toque extra para limpar a barra superior
+    customCss: ".swagger-ui .topbar { display: none }",
     customSiteTitle: "Growtwitter API Docs",
+    customJs:
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-bundle.min.js",
+    customCssUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui.min.css",
     swaggerOptions: {
       persistAuthorization: true,
+      url: "/api-docs.json",
     },
   }),
 );
