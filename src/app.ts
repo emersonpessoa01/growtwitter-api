@@ -38,9 +38,10 @@ export default class App {
       const greeting = this.getGreeting();
 
       res.json({
-        message: `${greeting} Dev! API Growtwitter rodando com sucesso.`,
+        message: `${greeting}! API Growtwitter rodando com sucesso.`,
         instructions:
           "Para testar os endpoints e ver a documentação, acesse /api-docs",
+        docs: `http://localhost:${this.port}/api-docs`,
       });
     });
   }
@@ -53,7 +54,7 @@ export default class App {
       console.log(`---------------------------------------------------`);
       console.log(`✨ ${greeting}!`);
       console.log(
-        `🚀 Servidor rodando localmente no host: http://localhost:${this.port}`,
+        `🚀 Servidor rodando localmente no host:http://localhost:${this.port}`,
       );
       console.log(`📖 Swagger: http://localhost:${this.port}/api-docs`);
       console.log(`---------------------------------------------------`);
