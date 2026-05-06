@@ -71,7 +71,7 @@ serverInstance.app.use(
     customJs:
       "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js",
     customSiteTitle: "Growtwitter API Docs",
-  }),
+  } as any), // O 'as any' mata o erro do VS Code e deixa você seguir
 );
 
 if (!process.env.VERCEL) {
