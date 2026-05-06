@@ -29,26 +29,23 @@ const swaggerOptions = {
           : "Ambiente Local",
       },
     ],
-    // CONFIGURAÇÃO DE SEGURANÇA
     components: {
       securitySchemes: {
         bearerAuth: {
           type: "http",
           scheme: "bearer",
           bearerFormat: "JWT",
-          description:
-            "Insira o token no JWT gerado no login para acessar as rotas protegidas e em seguida.",
         },
       },
     },
-    // Aplica a segurança globalmente em todas as rotas que possuem o marcador security no JSDoc
     security: [
       {
         bearerAuth: [],
       },
     ],
   },
-  apis: ["./src/routes/*.ts"],
+  // CORREÇÃO DOS CAMINHOS: Lê .ts em dev e .js em prod
+  apis: ["./src/routes/*.ts", "./dist/routes/*.js", "./routes/*.js"],
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -64,10 +61,15 @@ const serverInstance = new App(
   envs.PORT,
 );
 
+// CORREÇÃO DA TELA BRANCA: Adicionado CSS customizado para garantir o carregamento na Vercel
 serverInstance.app.use(
   "/api-docs",
   swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec),
+  swaggerUi.setup(swaggerSpec, {
+    customCssUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css",
+    customSiteTitle: "Growtwitter API Docs",
+  }),
 );
 
 if (!process.env.VERCEL) {
