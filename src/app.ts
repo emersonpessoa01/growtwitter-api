@@ -41,7 +41,8 @@ export default class App {
         message: `${greeting}! API Growtwitter rodando com sucesso.`,
         instructions:
           "Para testar os endpoints e ver a documentação, acesse /api-docs",
-        docs: `http://localhost:${this.port}/api-docs`,
+        local: `http://localhost:${this.port}/api-docs`,
+        remoto: "https://growtwitter-api-syq8.onrender.com/api-docs",
       });
     });
   }
