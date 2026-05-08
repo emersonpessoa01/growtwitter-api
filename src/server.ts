@@ -21,11 +21,12 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: process.env.VERCEL_URL
-          ? `https://${process.env.VERCEL_URL}`
+        // Se existir a URL do Render, usa ela. Caso contrário, usa o localhost.
+        url: process.env.RENDER_EXTERNAL_URL
+          ? process.env.RENDER_EXTERNAL_URL
           : `http://localhost:${envs.PORT}`,
-        description: process.env.VERCEL_URL
-          ? "Produção (Vercel)"
+        description: process.env.RENDER_EXTERNAL_URL
+          ? "Produção (Render)"
           : "Ambiente Local",
       },
     ],
@@ -83,8 +84,6 @@ serverInstance.app.use(
   }),
 );
 
-if (!process.env.VERCEL) {
-  serverInstance.listen();
-}
+serverInstance.listen();
 
 export default serverInstance.app;
