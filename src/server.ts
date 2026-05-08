@@ -81,6 +81,13 @@ serverInstance.app.use(
   }),
 );
 
-serverInstance.listen();
+const port = process.env.PORT || envs.PORT || 3030;
+
+// Importante: usar 0.0.0.0 para o Render mapear a rede corretamente
+if (!process.env.VERCEL) {
+  serverInstance.app.listen(Number(port), "0.0.0.0", () => {
+    console.log(`Servidor rodando na porta ${port}`);
+  });
+}
 
 export default serverInstance.app;

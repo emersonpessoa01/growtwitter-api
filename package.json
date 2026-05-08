@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
     "build": "tsc",
-    "start": "node ./build",
+    "start": "node ./dist/server.js",
     "eslint:check": "npx eslint .",
     "eslint:fix": "npx eslint . --fix",
     "prettier": "npx prettier --write .",
