@@ -21,10 +21,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        // Se existir a URL do Render, usa ela. Caso contrário, usa o localhost.
-        url: process.env.RENDER_EXTERNAL_URL
-          ? process.env.RENDER_EXTERNAL_URL
-          : `http://localhost:${envs.PORT}`,
+        url: process.env.RENDER_EXTERNAL_URL || `http://localhost:${envs.PORT}`,
         description: process.env.RENDER_EXTERNAL_URL
           ? "Produção (Render)"
           : "Ambiente Local",
