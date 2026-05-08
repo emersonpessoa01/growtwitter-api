@@ -42,7 +42,12 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ["./src/routes/*.ts", "./dist/routes/*.js", "./routes/*.js"],
+  apis: [
+    "./src/routes/*.ts",
+    "./dist/routes/*.js",
+    "./routes/*.js",
+    "./build/routes/*.js",
+  ],
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -58,7 +63,7 @@ const serverInstance = new App(
   envs.PORT,
 );
 
-// Rota para servir o JSON do spec (necessário na Vercel)
+// Rota para servir o JSON do spec
 serverInstance.app.get("/api-docs.json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.send(swaggerSpec);
@@ -83,7 +88,7 @@ serverInstance.app.use(
 
 const port = process.env.PORT || envs.PORT || 3030;
 
-// Importante: usar 0.0.0.0 para o Render mapear a rede corretamente
+// Inicialização para Render (0.0.0.0 é obrigatório no Render)
 if (!process.env.VERCEL) {
   serverInstance.app.listen(Number(port), "0.0.0.0", () => {
     console.log(`Servidor rodando na porta ${port}`);
